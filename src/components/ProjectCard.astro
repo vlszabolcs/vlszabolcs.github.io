@@ -19,8 +19,9 @@ const nbsp = (s: string) => s.replace(/-/g, "‑");
   </div>
   {art ? (
     <div class="proj-lead">
+      <ProjectArt name={art} part="left" />
       <div class="proj-body"><Content /></div>
-      <ProjectArt name={art} />
+      <ProjectArt name={art} part="right" />
     </div>
   ) : (
     <div class="proj-body"><Content /></div>

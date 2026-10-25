@@ -22,4 +22,4 @@ links:
   - { label: "First version (rfidChecker)", url: "https://github.com/vlszabolcs/rfidChecker" }
 ---
 
-An RFID payment system for an office coffee machine. An ESP32 board takes the place of the machine's coin validator: a user taps their card, the device checks and charges their credit in Firebase, then sends the same pulses a coin would. Credit is managed in an Android admin app, and a separate user app lets people buy a coffee or pass credit to a colleague from their phone.
+An RFID payment system for an office coffee machine. An ESP32 board takes the place of the machine's coin validator: a user taps their RFID tag, the device checks and charges their credit in Firebase, then sends the same pulses a coin would. Credit is managed in an Android admin app, and a separate user app lets people buy a coffee or pass credit to a colleague from their phone.

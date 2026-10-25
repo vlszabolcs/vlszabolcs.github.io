@@ -1,34 +1,39 @@
 ---
 // Small silhouette illustrations shown beside a project's description.
-// Pick one with `art: <name>` in the project's frontmatter.
+// Pick one with `art: <name>` in the project's frontmatter; `part` picks the
+// left or right half, which ProjectCard places on either side of the text.
 interface Props {
   name: string;
+  part: "left" | "right";
 }
-const { name } = Astro.props;
+const { name, part } = Astro.props;
 ---
-{name === "rfid-coffee" && (
-  <svg class="proj-art" viewBox="0 0 168 104" role="img" aria-label="An RFID key tag next to a coffee mug">
-    <!-- RFID key fob tag on a key ring -->
+{name === "rfid-coffee" && part === "left" && (
+  <svg class="proj-art art-left" viewBox="8 8 92 92" role="img" aria-label="An RFID key tag sending radio waves">
+    <!-- key ring, partly hidden behind the tag -->
     <circle class="ring" cx="38" cy="27" r="11" fill="none" stroke-width="3.5" />
-    <g class="sil">
-      <path d="M38 30 c10 0 14 8 16 16 l6 22 c3 12 -6 22 -22 22 c-16 0 -25 -10 -22 -22 l6 -22 c2 -8 6 -16 16 -16 z" />
-    </g>
+    <path class="sil" d="M38 30 c10 0 14 8 16 16 l6 22 c3 12 -6 22 -22 22 c-16 0 -25 -10 -22 -22 l6 -22 c2 -8 6 -16 16 -16 z" />
     <circle class="cut" cx="38" cy="40" r="5" />
-    <!-- contactless waves -->
+    <!-- radio waves, pulsing outwards -->
     <g class="hot" fill="none" stroke-width="4" stroke-linecap="round">
-      <path d="M70 54 a14 14 0 0 1 0 20" />
-      <path d="M78 48 a22 22 0 0 1 0 32" />
+      <path class="wave" d="M70 54 a14 14 0 0 1 0 20" />
+      <path class="wave" d="M78 48 a22 22 0 0 1 0 32" />
+      <path class="wave" d="M86 42 a30 30 0 0 1 0 44" />
     </g>
-    <!-- mug -->
+  </svg>
+)}
+{name === "rfid-coffee" && part === "right" && (
+  <svg class="proj-art art-right" viewBox="92 4 70 96" role="img" aria-label="A steaming coffee mug">
+    <!-- rising steam -->
+    <g class="hot" fill="none" stroke-width="3.5" stroke-linecap="round">
+      <path class="steam" d="M114 36 c-5 -6 5 -10 0 -18" />
+      <path class="steam" d="M124 36 c-5 -6 5 -10 0 -18" />
+      <path class="steam" d="M134 36 c-5 -6 5 -10 0 -18" />
+    </g>
     <g class="sil">
       <path d="M104 44 h40 v34 a12 12 0 0 1 -12 12 h-16 a12 12 0 0 1 -12 -12 z" />
       <path d="M144 50 h6 a10 10 0 0 1 0 20 h-6 v-6 h6 a4 4 0 0 0 0 -8 h-6 z" />
       <rect x="98" y="92" width="58" height="5" rx="2.5" />
-    </g>
-    <!-- steam -->
-    <g class="hot" fill="none" stroke-width="3.5" stroke-linecap="round">
-      <path d="M116 36 c-5 -6 5 -10 0 -18" />
-      <path d="M128 36 c-5 -6 5 -10 0 -18" />
     </g>
   </svg>
 )}
