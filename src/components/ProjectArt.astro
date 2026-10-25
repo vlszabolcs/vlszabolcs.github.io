@@ -7,17 +7,17 @@ interface Props {
 const { name } = Astro.props;
 ---
 {name === "rfid-coffee" && (
-  <svg class="proj-art" viewBox="0 0 168 104" role="img" aria-label="An RFID card tapped next to a coffee mug">
-    <!-- RFID card -->
+  <svg class="proj-art" viewBox="0 0 168 104" role="img" aria-label="An RFID key tag next to a coffee mug">
+    <!-- RFID key fob tag on a key ring -->
+    <circle class="ring" cx="38" cy="27" r="11" fill="none" stroke-width="3.5" />
     <g class="sil">
-      <rect x="6" y="34" width="64" height="44" rx="6" />
+      <path d="M38 30 c10 0 14 8 16 16 l6 22 c3 12 -6 22 -22 22 c-16 0 -25 -10 -22 -22 l6 -22 c2 -8 6 -16 16 -16 z" />
     </g>
-    <rect class="cut" x="15" y="46" width="14" height="11" rx="2" />
-    <rect class="cut" x="15" y="64" width="34" height="4" rx="2" />
+    <circle class="cut" cx="38" cy="40" r="5" />
     <!-- contactless waves -->
     <g class="hot" fill="none" stroke-width="4" stroke-linecap="round">
-      <path d="M78 46 a14 14 0 0 1 0 20" />
-      <path d="M86 40 a22 22 0 0 1 0 32" />
+      <path d="M70 54 a14 14 0 0 1 0 20" />
+      <path d="M78 48 a22 22 0 0 1 0 32" />
     </g>
     <!-- mug -->
     <g class="sil">
