@@ -1,0 +1,115 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import profile from "../data/profile.json";
+
+const projects = (await getCollection("projects", ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+// Bold the emphasised phrases inside the headline
+let headline = profile.headline.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+for (const phrase of profile.headlineEmphasis) headline = headline.replace(phrase, `<b>${phrase}</b>`);
+
+const channels = [
+  { ch: 172, f: "5.860", h: 38 }, { ch: 174, f: "5.870", h: 52 }, { ch: 176, f: "5.880", h: 66 },
+  { ch: 178, f: "5.890", h: 58 }, { ch: 180, f: "5.900", h: 100, cch: true },
+  { ch: 182, f: "5.910", h: 44 }, { ch: 184, f: "5.920", h: 30 },
+];
+const ghUser = profile.github.replace(/^https:\/\/github\.com\//, "");
+---
+<Base>
+  <main class="wrap" id="main">
+    <header class="hero">
+      <span class="label">Portfolio · {profile.location}</span>
+      <h1>{profile.name.replace(/-/g, "‑")}</h1>
+      <p class="role" set:html={headline} />
+      <div class="meta">
+        {profile.tags.map((t) => <span>{t}</span>)}
+        <a href={profile.github}>github.com/{ghUser}</a>
+      </div>
+
+      <figure class="band" aria-label="ITS-G5 channel plan, 5.9 GHz band">
+        <div class="chs" aria-hidden="true">
+          {channels.map((c) => <i class:list={["ch", { cch: c.cch }]} style={`height:${c.h}%`}></i>)}
+        </div>
+        <div class="ticks">
+          {channels.map((c) => <span class:list={{ on: c.cch }}><b>{c.ch}</b>{c.f}</span>)}
+        </div>
+        <figcaption>ITS-G5 channels, GHz. Channel 180 is the control channel where most V2X messages land.</figcaption>
+      </figure>
+    </header>
+
+    <section>
+      <div class="sec-head"><h2>About</h2></div>
+      <div class="intro">
+        {profile.about.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Projects</h2></div>
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Toolbox</h2></div>
+      <div class="tools">
+        {profile.toolbox.map((g) => (
+          <div>
+            <h3>{g.title}</h3>
+            <ul>
+              {g.items.map((i) => (
+                <li>{i.name}{i.note && <> <span>{i.note}</span></>}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Background</h2></div>
+      <ol class="tl">
+        {profile.timeline.map((t) => (
+          <li><span class="when">{t.when}</span><div><strong>{t.title}</strong><p>{t.text}</p></div></li>
+        ))}
+      </ol>
+    </section>
+
+    <footer>
+      <h2>Get in touch</h2>
+      <p>{profile.contact} <a href={profile.github}>github.com/{ghUser}</a></p>
+    </footer>
+  </main>
+
+  <script>
+    // Progressive enhancement: show each project's latest commit from the public GitHub API.
+    // If the request fails or is rate-limited, the line simply stays hidden.
+    const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+    const ago = (iso: string) => {
+      const days = Math.round((Date.parse(iso) - Date.now()) / 86_400_000);
+      if (Math.abs(days) < 1) return "today";
+      if (Math.abs(days) < 30) return rtf.format(days, "day");
+      return rtf.format(Math.round(days / 30), "month");
+    };
+    document.querySelectorAll<HTMLElement>(".live[data-repo]").forEach(async (el) => {
+      try {
+        const repo = el.dataset.repo!;
+        const info = await fetch(`https://api.github.com/repos/${repo}`).then((r) => (r.ok ? r.json() : Promise.reject()));
+        const branch = el.dataset.branch || info.default_branch;
+        const commits = await fetch(`https://api.github.com/repos/${repo}/commits?sha=${branch}&per_page=1`).then((r) =>
+          r.ok ? r.json() : Promise.reject(),
+        );
+        const c = commits[0];
+        if (!c) return;
+        const msg = c.commit.message.split("\n")[0].slice(0, 70);
+        el.textContent = `Last commit ${ago(c.commit.committer.date)} on ${branch}: “${msg}”`;
+        el.hidden = false;
+      } catch {
+        /* stay hidden */
+      }
+    });
+  </script>
+</Base>

@@ -1,0 +1,23 @@
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
+
+const projects = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
+  schema: z.object({
+    title: z.string(),
+    status: z.string(),
+    order: z.number().default(99),
+    // "owner/name" on GitHub; enables the live "last commit" line
+    repo: z.string().optional(),
+    // branch to read the last commit from (defaults to the repo default branch)
+    branch: z.string().optional(),
+    specs: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
+    roadmap: z
+      .array(z.object({ state: z.enum(["done", "building", "planned"]), text: z.string() }))
+      .default([]),
+    links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects };

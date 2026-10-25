@@ -1,0 +1,59 @@
+{
+  "name": "Szabolcs Veres-Lakos",
+  "location": "Szeged, Hungary",
+  "headline": "Mechanical engineer moving into embedded systems, IT and LLM tooling.",
+  "headlineEmphasis": ["embedded systems", "IT", "LLM tooling"],
+  "tags": ["B.Sc. Mechanical Engineering", "Firmware · Android · MCP"],
+  "github": "https://github.com/vlszabolcs",
+  "about": [
+    "I design railway weed-control equipment at G & G Kft. Along the way I took over the company's Autodesk Vault rollout and started automating CAD work with iLogic and Python. That side of the job turned out to be the part I enjoy most.",
+    "Now I spend my own time on hardware and software: porting radio firmware to new boards, building the app that talks to them, and learning how language models can drive real engineering tools."
+  ],
+  "toolbox": [
+    {
+      "title": "Embedded & mobile",
+      "items": [
+        { "name": "ESP32-C5 / ESP32-S3" },
+        { "name": "Firmware porting, USB & BLE" },
+        { "name": "Android app UI" },
+        { "name": "RFID logging", "note": "with external devs" }
+      ]
+    },
+    {
+      "title": "Automation & LLM",
+      "items": [
+        { "name": "Python", "note": "basic" },
+        { "name": "iLogic scripting" },
+        { "name": "MCP servers", "note": "learning" },
+        { "name": "AI-assisted development" }
+      ]
+    },
+    {
+      "title": "Engineering IT",
+      "items": [
+        { "name": "Autodesk Vault ADMS admin" },
+        { "name": "Autodesk Inventor" },
+        { "name": "2nd-level user support" },
+        { "name": "PDM / PLM concepts" }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "when": "2023 – now",
+      "title": "Mechanical Engineer, G & G Kft.",
+      "text": "Product development for railway weed control. Vault PDM rollout and admin, iLogic automation, on-site engineering support."
+    },
+    {
+      "when": "2021 – 2023",
+      "title": "Assembly Technician, G & G Kft.",
+      "text": "Built the machines I now design."
+    },
+    {
+      "when": "2023",
+      "title": "B.Sc. Mechanical Engineering",
+      "text": "University of Szeged"
+    }
+  ],
+  "contact": "Open to roles in embedded systems, engineering IT and PLM. Code and progress on GitHub."
+}
