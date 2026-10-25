@@ -3,6 +3,7 @@ title: BrewPass coffee payment
 status: Working
 order: 2
 repo: vlszabolcs/brewpass
+art: rfid-coffee
 specs:
   - { label: Hardware, value: "ESP32, RC522 RFID reader, SH1106 OLED" }
   - { label: Machine, value: "Saeco Royal Office (replaces NRI G-13.mft coin validator)" }

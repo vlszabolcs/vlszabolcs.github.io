@@ -114,3 +114,15 @@ footer h2{font-size:26px}
   .hero-top{grid-template-columns:1fr;gap:20px}
   .portrait{order:-1;width:112px}
 }
+
+/* project illustration beside the description */
+.proj-lead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center}
+.proj-lead .proj-body{min-width:0}
+.proj-art{width:168px;height:auto;max-width:100%;display:block}
+.proj-art .sil{fill:var(--muted)}
+.proj-art .cut{fill:var(--surface)}
+.proj-art .hot{stroke:var(--accent)}
+@media (max-width:560px){
+  .proj-lead{grid-template-columns:1fr;gap:14px}
+  .proj-art{order:-1;width:120px}
+}

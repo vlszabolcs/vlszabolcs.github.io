@@ -117,7 +117,8 @@ const ghUser = profile.github.replace(/^https:\/\/github\.com\//, "");
         // Skip merge commits: their message says nothing about the work
         const c = commits.find((x: any) => x.parents.length < 2) ?? commits[0];
         if (!c) return;
-        const msg = c.commit.message.split("\n")[0].slice(0, 70);
+        const first = c.commit.message.split("\n")[0];
+        const msg = first.length > 70 ? first.slice(0, 68).trimEnd() + "…" : first;
         el.textContent = `Last commit ${ago(c.commit.committer.date)} on ${branch}: “${msg}”`;
         el.hidden = false;
       } catch {

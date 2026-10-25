@@ -1,12 +1,13 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
+import ProjectArt from "./ProjectArt.astro";
 
 interface Props {
   project: CollectionEntry<"projects">;
 }
 const { project } = Astro.props;
-const { title, status, specs, roadmap, links, repo, branch } = project.data;
+const { title, status, specs, roadmap, links, repo, branch, art } = project.data;
 const { Content } = await render(project);
 const stateLabel = { done: "Done", building: "Building", planned: "Planned" } as const;
 const nbsp = (s: string) => s.replace(/-/g, "‑");
@@ -16,7 +17,14 @@ const nbsp = (s: string) => s.replace(/-/g, "‑");
     <h3>{nbsp(title)}</h3>
     <span class="status">{status}</span>
   </div>
-  <div class="proj-body"><Content /></div>
+  {art ? (
+    <div class="proj-lead">
+      <div class="proj-body"><Content /></div>
+      <ProjectArt name={art} />
+    </div>
+  ) : (
+    <div class="proj-body"><Content /></div>
+  )}
   {specs.length > 0 && (
     <dl class="specs">
       {specs.map((s) => (
