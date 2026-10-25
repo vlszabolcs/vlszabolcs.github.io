@@ -111,8 +111,14 @@ footer h2{font-size:26px}
 .portrait{display:block;width:clamp(150px,22vw,200px);max-width:100%}
 .portrait img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:var(--surface)}
 @media (max-width:560px){
-  .hero-top{grid-template-columns:1fr;gap:20px}
-  .portrait{order:-1;width:112px}
+  /* phones: label on top, then photo and name side by side, then the rest */
+  .hero-top{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"label label" "photo name" "role role" "meta meta";gap:18px 16px;align-items:center}
+  .hero-text{display:contents}
+  .hero-text .label{grid-area:label}
+  .hero-text h1{grid-area:name}
+  .hero-text .role{grid-area:role}
+  .hero-text .meta{grid-area:meta}
+  .portrait{grid-area:photo;width:clamp(76px,24vw,104px)}
 }
 
 /* project illustration: tag left of the text, mug right of it */
@@ -165,7 +171,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
 @media (max-width:560px){
   body{font-size:16px}
-  .hero h1{font-size:clamp(36px,11vw,48px)}
+  .hero h1{font-size:clamp(26px,8.4vw,40px)}
   .proj{padding:20px 18px;gap:16px}
   .proj h3{font-size:21px}
   .sec-head h2,footer h2{font-size:23px}
@@ -184,3 +190,4 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .specs{grid-template-columns:1fr}
   .proj{padding:18px 14px}
 }
+.meta{align-items:center}
