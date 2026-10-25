@@ -28,7 +28,7 @@ const nbsp = (s: string) => s.replace(/-/g, "‑");
     <ul class="road">
       {roadmap.map((r) => (
         <li>
-          <span class:list={["st", { wip: r.state === "building" }]}>{stateLabel[r.state]}</span>
+          <span class:list={["st", { wip: r.state === "building", done: r.state === "done" }]}>{stateLabel[r.state]}</span>
           <span>{r.text}</span>
         </li>
       ))}

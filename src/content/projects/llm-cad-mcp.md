@@ -1,7 +1,7 @@
 ---
 title: LLM-driven CAD with MCP
 status: Learning
-order: 2
+order: 3
 specs:
   - { label: Protocol, value: "Model Context Protocol" }
   - { label: CAD, value: "FreeCAD, Autodesk Inventor" }
