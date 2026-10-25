@@ -22,12 +22,20 @@ const ghUser = profile.github.replace(/^https:\/\/github\.com\//, "");
 <Base>
   <main class="wrap" id="main">
     <header class="hero">
-      <span class="label">Portfolio · {profile.location}</span>
-      <h1>{profile.name.replace(/-/g, "‑")}</h1>
-      <p class="role" set:html={headline} />
-      <div class="meta">
-        {profile.tags.map((t) => <span>{t}</span>)}
-        <a href={profile.github}>github.com/{ghUser}</a>
+      <div class="hero-top">
+        <div class="hero-text">
+          <span class="label">Portfolio · {profile.location}</span>
+          <h1>{profile.name.replace(/-/g, "‑")}</h1>
+          <p class="role" set:html={headline} />
+          <div class="meta">
+            {profile.tags.map((t) => <span>{t}</span>)}
+            <a href={profile.github}>github.com/{ghUser}</a>
+          </div>
+        </div>
+        <picture class="portrait">
+          <source srcset="/portrait.webp" type="image/webp" />
+          <img src="/portrait.jpg" width="480" height="600" alt={`Portrait of ${profile.name}`} fetchpriority="high" />
+        </picture>
       </div>
 
       <figure class="band" aria-label="ITS-G5 channel plan, 5.9 GHz band">
