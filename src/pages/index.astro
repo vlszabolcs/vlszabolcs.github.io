@@ -80,7 +80,11 @@ const ghUser = profile.github.replace(/^https:\/\/github\.com\//, "");
 
     <footer>
       <h2>Get in touch</h2>
-      <p>{profile.contact} <a href={profile.github}>github.com/{ghUser}</a></p>
+      <p>{profile.contact}</p>
+      <dl class="contact">
+        <div><dt>Email</dt><dd><a href={`mailto:${profile.email}`}>{profile.email}</a></dd></div>
+        <div><dt>GitHub</dt><dd><a href={profile.github}>github.com/{ghUser}</a></dd></div>
+      </dl>
     </footer>
   </main>
 

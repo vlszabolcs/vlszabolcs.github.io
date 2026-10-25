@@ -97,3 +97,9 @@ footer h2{font-size:26px}
 .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:16px;top:16px;background:var(--surface);padding:8px 12px;z-index:20}
+
+/* contact list in the footer */
+.contact{display:flex;flex-wrap:wrap;gap:12px 40px;margin:6px 0 0}
+.contact div{min-width:0}
+.contact dt{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.contact dd{margin:2px 0 0;font-size:16px;overflow-wrap:anywhere}
