@@ -3,6 +3,7 @@
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
 import ProjectArt from "./ProjectArt.astro";
+import YouTube from "./YouTube.astro";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -10,7 +11,7 @@ interface Props {
   as?: "h1" | "h2";
 }
 const { project, headingId, as: Heading = "h2" } = Astro.props;
-const { title, status, intro, specs, roadmap, links, repo, branch, art } = project.data;
+const { title, status, intro, specs, roadmap, links, repo, branch, art, video } = project.data;
 const { Content } = await render(project);
 const stateLabel = { done: "Done", building: "Building", planned: "Planned" } as const;
 const nbsp = (s: string) => s.replace(/-/g, "‑");
@@ -37,6 +38,7 @@ const nbsp = (s: string) => s.replace(/-/g, "‑");
       ))}
     </dl>
   )}
+  {video && <YouTube id={video.youtube} title={video.title} />}
   {intro && (
     <div class="article prose">
       <Content />

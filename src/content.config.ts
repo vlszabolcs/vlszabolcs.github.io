@@ -18,6 +18,8 @@ const projects = defineCollection({
     branch: z.string().optional(),
     // optional illustration beside the description (see ProjectArt.astro)
     art: z.enum(["rfid-coffee"]).optional(),
+    // optional click-to-play YouTube video shown after the key facts
+    video: z.object({ youtube: z.string(), title: z.string() }).optional(),
     specs: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
     roadmap: z
       .array(z.object({ state: z.enum(["done", "building", "planned"]), text: z.string() }))

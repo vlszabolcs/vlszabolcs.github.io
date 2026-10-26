@@ -1,0 +1,55 @@
+---
+// Click-to-play YouTube embed. Until the visitor presses play, only a thumbnail is shown:
+// nothing loads from YouTube, nothing plays on its own. Playing uses youtube-nocookie.com.
+// When the overlay that holds it closes, the player is removed so the video stops.
+interface Props {
+  id: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+<figure class="yt" data-yt={id} data-title={title}>
+  <button type="button" class="yt-frame yt-play" aria-label={`Play video: ${title}`}>
+    <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
+    <span class="yt-btn" aria-hidden="true">
+      <svg viewBox="0 0 68 48" width="68" height="48"><path class="yt-btn-bg" d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z"/><path class="yt-btn-tri" d="M45 24 27 14v20z"/></svg>
+    </span>
+  </button>
+  <figcaption>{title} · <a href={`https://www.youtube.com/watch?v=${id}`} rel="noopener">Watch on YouTube</a></figcaption>
+</figure>
+
+<script>
+  function reset(fig: HTMLElement) {
+    const frame = fig.querySelector("iframe");
+    const btn = fig.querySelector<HTMLElement>(".yt-play");
+    if (frame && btn) {
+      frame.remove();
+      btn.hidden = false;
+    }
+  }
+  document.querySelectorAll<HTMLElement>("figure.yt[data-yt]").forEach((fig) => {
+    const btn = fig.querySelector<HTMLButtonElement>(".yt-play")!;
+    // if the thumbnail cannot load, keep the dark frame and play button instead of a broken image
+    const img = btn.querySelector("img");
+    if (img) {
+      const hide = () => (img.style.visibility = "hidden");
+      if (img.complete && img.naturalWidth === 0) hide();
+      img.addEventListener("error", hide);
+    }
+    btn.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      // autoplay=1 only starts it now, after the visitor pressed play
+      iframe.src = `https://www.youtube-nocookie.com/embed/${fig.dataset.yt}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+      iframe.title = fig.dataset.title || "Video";
+      iframe.className = "yt-frame";
+      iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      btn.hidden = true;
+      btn.after(iframe);
+      iframe.focus();
+    });
+    // stop playback when the overlay around it closes
+    fig.closest("dialog")?.addEventListener("close", () => reset(fig));
+  });
+</script>
