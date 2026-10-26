@@ -1,6 +1,7 @@
 ---
 title: LLM-driven CAD with MCP
 status: Learning
+summary: "Learning how MCP servers let a language model drive CAD tools such as FreeCAD."
 order: 3
 specs:
   - { label: Protocol, value: "Model Context Protocol" }

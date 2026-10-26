@@ -1,52 +1,23 @@
 ---
+// Compact project card on the landing page. It is a real link to /projects/<id>/;
+// with JavaScript the full write-up opens in an overlay instead (see index.astro).
 import type { CollectionEntry } from "astro:content";
-import { render } from "astro:content";
-import ProjectArt from "./ProjectArt.astro";
 
 interface Props {
   project: CollectionEntry<"projects">;
 }
 const { project } = Astro.props;
-const { title, status, specs, roadmap, links, repo, branch, art } = project.data;
-const { Content } = await render(project);
-const stateLabel = { done: "Done", building: "Building", planned: "Planned" } as const;
+const { title, status, summary, specs } = project.data;
 const nbsp = (s: string) => s.replace(/-/g, "‑");
+// first two spec values as a short "built with" line
+const stack = specs.slice(0, 2).map((s) => s.value.replace(/\s*\(.*\)$/, "")).join(" · ");
 ---
-<article class="proj">
-  <div class="proj-top">
-    <h3>{nbsp(title)}</h3>
+<a class="pcard" href={`/projects/${project.id}/`} data-project={project.id}>
+  <span class="pcard-top">
     <span class="status">{status}</span>
-  </div>
-  {art ? (
-    <div class="proj-lead">
-      <ProjectArt name={art} part="left" />
-      <div class="proj-body"><Content /></div>
-      <ProjectArt name={art} part="right" />
-    </div>
-  ) : (
-    <div class="proj-body"><Content /></div>
-  )}
-  {specs.length > 0 && (
-    <dl class="specs">
-      {specs.map((s) => (
-        <div><dt>{s.label}</dt><dd>{s.value}</dd></div>
-      ))}
-    </dl>
-  )}
-  {roadmap.length > 0 && (
-    <ul class="road">
-      {roadmap.map((r) => (
-        <li>
-          <span class:list={["st", { wip: r.state === "building", done: r.state === "done" }]}>{stateLabel[r.state]}</span>
-          <span>{r.text}</span>
-        </li>
-      ))}
-    </ul>
-  )}
-  {repo && <p class="live" data-repo={repo} data-branch={branch} hidden></p>}
-  {links.length > 0 && (
-    <div class="links">
-      {links.map((l) => <a href={l.url} rel="noopener">{l.label}</a>)}
-    </div>
-  )}
-</article>
+  </span>
+  <h3>{nbsp(title)}</h3>
+  <p class="pcard-sum">{summary}</p>
+  {stack && <span class="pcard-stack">{stack}</span>}
+  <span class="pcard-more" aria-hidden="true">Read more <span class="arrow">→</span></span>
+</a>

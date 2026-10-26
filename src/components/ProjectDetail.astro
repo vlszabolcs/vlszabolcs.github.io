@@ -1,0 +1,55 @@
+---
+// The full project write-up. Used inside the landing-page overlay and on /projects/<id>/.
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import ProjectArt from "./ProjectArt.astro";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  headingId?: string;
+  as?: "h1" | "h2";
+}
+const { project, headingId, as: Heading = "h2" } = Astro.props;
+const { title, status, specs, roadmap, links, repo, branch, art } = project.data;
+const { Content } = await render(project);
+const stateLabel = { done: "Done", building: "Building", planned: "Planned" } as const;
+const nbsp = (s: string) => s.replace(/-/g, "‑");
+---
+<article class="detail">
+  <div class="proj-top">
+    <Heading id={headingId} class="detail-title">{nbsp(title)}</Heading>
+    <span class="status">{status}</span>
+  </div>
+  {art ? (
+    <div class="proj-lead">
+      <ProjectArt name={art} part="left" />
+      <div class="proj-body"><Content /></div>
+      <ProjectArt name={art} part="right" />
+    </div>
+  ) : (
+    <div class="proj-body"><Content /></div>
+  )}
+  {specs.length > 0 && (
+    <dl class="specs">
+      {specs.map((s) => (
+        <div><dt>{s.label}</dt><dd>{s.value}</dd></div>
+      ))}
+    </dl>
+  )}
+  {roadmap.length > 0 && (
+    <ul class="road">
+      {roadmap.map((r) => (
+        <li>
+          <span class:list={["st", { wip: r.state === "building", done: r.state === "done" }]}>{stateLabel[r.state]}</span>
+          <span>{r.text}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+  {repo && <p class="live" data-repo={repo} data-branch={branch} hidden></p>}
+  {links.length > 0 && (
+    <div class="links">
+      {links.map((l) => <a href={l.url} rel="noopener">{l.label}</a>)}
+    </div>
+  )}
+</article>

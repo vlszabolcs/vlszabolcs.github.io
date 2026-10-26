@@ -6,6 +6,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     status: z.string(),
+    // one sentence shown on the landing page card
+    summary: z.string(),
     order: z.number().default(99),
     // "owner/name" on GitHub; enables the live "last commit" line
     repo: z.string().optional(),

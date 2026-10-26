@@ -1,6 +1,7 @@
 ---
 title: BrewPass coffee payment
 status: Working
+summary: "RFID payment for an office coffee machine: an ESP32 replaces the coin validator, backed by Firebase and two Android apps."
 order: 2
 repo: vlszabolcs/brewpass
 art: rfid-coffee

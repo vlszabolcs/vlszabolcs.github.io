@@ -1,6 +1,7 @@
 ---
 title: V2X2MAP on T-Dongle-C5
 status: In progress
+summary: "Porting an ITS-G5 car-to-car radio receiver to the LilyGO T-Dongle-C5, with a redesigned Android map app."
 order: 1
 repo: vlszabolcs/v2x2map
 branch: tdongle-c5

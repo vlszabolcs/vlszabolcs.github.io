@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import ProjectDetail from "../components/ProjectDetail.astro";
+import LiveCommits from "../components/LiveCommits.astro";
 import profile from "../data/profile.json";
 
 const projects = (await getCollection("projects", ({ data }) => !data.draft)).sort(
@@ -56,9 +58,11 @@ const ghUser = profile.github.replace(/^https:\/\/github\.com\//, "");
       </div>
     </section>
 
-    <section>
+    <section id="projects">
       <div class="sec-head"><h2>Projects</h2></div>
-      {projects.map((p) => <ProjectCard project={p} />)}
+      <div class="pgrid">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
     </section>
 
     <section>
@@ -96,34 +100,74 @@ const ghUser = profile.github.replace(/^https:\/\/github\.com\//, "");
     </footer>
   </main>
 
+
+  {projects.map((p) => (
+    <dialog class="sheet" id={`dlg-${p.id}`} aria-labelledby={`dlg-${p.id}-title`}>
+      <div class="sheet-bar">
+        <a class="sheet-link" href={`/projects/${p.id}/`}>Open as page</a>
+        <button type="button" class="sheet-close" data-close aria-label="Close">×</button>
+      </div>
+      <ProjectDetail project={p} headingId={`dlg-${p.id}-title`} />
+    </dialog>
+  ))}
+  <LiveCommits />
+
   <script>
-    // Progressive enhancement: show each project's latest commit from the public GitHub API.
-    // If the request fails or is rate-limited, the line simply stays hidden.
-    const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
-    const ago = (iso: string) => {
-      const days = Math.round((Date.parse(iso) - Date.now()) / 86_400_000);
-      if (Math.abs(days) < 1) return "today";
-      if (Math.abs(days) < 30) return rtf.format(days, "day");
-      return rtf.format(Math.round(days / 30), "month");
-    };
-    document.querySelectorAll<HTMLElement>(".live[data-repo]").forEach(async (el) => {
-      try {
-        const repo = el.dataset.repo!;
-        const info = await fetch(`https://api.github.com/repos/${repo}`).then((r) => (r.ok ? r.json() : Promise.reject()));
-        const branch = el.dataset.branch || info.default_branch;
-        const commits = await fetch(`https://api.github.com/repos/${repo}/commits?sha=${branch}&per_page=15`).then((r) =>
-          r.ok ? r.json() : Promise.reject(),
-        );
-        // Skip merge commits: their message says nothing about the work
-        const c = commits.find((x: any) => x.parents.length < 2) ?? commits[0];
-        if (!c) return;
-        const first = c.commit.message.split("\n")[0];
-        const msg = first.length > 70 ? first.slice(0, 68).trimEnd() + "…" : first;
-        el.textContent = `Last commit ${ago(c.commit.committer.date)} on ${branch}: “${msg}”`;
-        el.hidden = false;
-      } catch {
-        /* stay hidden */
+    // Open a project's write-up in an overlay instead of navigating, and keep the
+    // address bar in step (/projects/<id>/) so Back closes it and the URL can be shared.
+    const home = location.pathname;
+    let openId: string | null = null;
+
+    const dlg = (id: string) => document.getElementById(`dlg-${id}`) as HTMLDialogElement | null;
+
+    function show(id: string) {
+      const d = dlg(id);
+      if (!d || d.open) return;
+      d.showModal();
+      d.scrollTop = 0;
+      openId = id;
+    }
+    function hide() {
+      if (!openId) return;
+      dlg(openId)?.close();
+      openId = null;
+    }
+
+    document.querySelectorAll<HTMLAnchorElement>("a.pcard[data-project]").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; // new tab etc.
+        e.preventDefault();
+        const id = a.dataset.project!;
+        history.pushState({ project: id }, "", a.href);
+        show(id);
+      });
+    });
+
+    document.querySelectorAll<HTMLDialogElement>("dialog.sheet").forEach((d) => {
+      // a click on the dimmed backdrop (outside the panel) closes it
+      d.addEventListener("click", (e) => {
+        if (e.target === d) requestClose();
+      });
+      d.querySelector("[data-close]")?.addEventListener("click", requestClose);
+      // Esc: let history drive the close so the URL goes back too
+      d.addEventListener("cancel", (e) => {
+        e.preventDefault();
+        requestClose();
+      });
+    });
+
+    function requestClose() {
+      if (history.state?.project) history.back();
+      else {
+        hide();
+        history.replaceState(null, "", home);
       }
+    }
+
+    window.addEventListener("popstate", (e) => {
+      const id = e.state?.project as string | undefined;
+      if (id) show(id);
+      else hide();
     });
   </script>
 </Base>
