@@ -19,9 +19,12 @@ A project file looks like this:
 ---
 title: My project
 status: In progress        # free text shown as the pill
+summary: "One sentence for the card on the home page."
+intro: "Optional lead paragraph at the top of the full write-up."
 order: 3                   # position on the page
 repo: vlszabolcs/my-repo   # optional: shows the live "last commit" line
 branch: main               # optional
+art: rfid-coffee           # optional illustration (src/components/ProjectArt.astro)
 specs:
   - { label: Hardware, value: "ESP32-S3" }
 roadmap:                   # state: done | building | planned
@@ -31,8 +34,22 @@ links:
 draft: false               # true hides it
 ---
 
-One or two paragraphs of description.
+The write-up, in Markdown.
 ```
+
+The home page shows only the card (title, status, `summary`). A click opens the full write-up in an
+overlay, and every project also has its own page at `/projects/<file name>/`.
+
+### Short post or long article
+
+- **Short:** leave out `intro`. The Markdown body is shown at the top, beside the illustration.
+- **Long:** set `intro`. The intro goes at the top, then the key facts (`specs`), then the Markdown
+  body as a full-width article with `##` / `###` headings, lists, code blocks, tables and images,
+  then the roadmap and links.
+
+Images for a post go in `public/projects/<file name>/` and are referenced as
+`![What it shows](/projects/<file name>/photo.jpg)`. Keep photos under ~300 KB
+(about 1600 px wide is plenty).
 
 ## Local development
 

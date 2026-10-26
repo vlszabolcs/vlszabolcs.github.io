@@ -8,6 +8,9 @@ const projects = defineCollection({
     status: z.string(),
     // one sentence shown on the landing page card
     summary: z.string(),
+    // optional short lead paragraph shown at the top of the full write-up (beside the illustration).
+    // When it is set, the Markdown body becomes the long-form article below the key facts.
+    intro: z.string().optional(),
     order: z.number().default(99),
     // "owner/name" on GitHub; enables the live "last commit" line
     repo: z.string().optional(),
