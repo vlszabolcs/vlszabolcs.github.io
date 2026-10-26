@@ -83,6 +83,19 @@ The user app reads the coffee tag once over NFC and binds it to that phone. Afte
 
 The machine publishes whether it is ready (idle, paid mode, accepting credit, connected), so the app can tell the user before they try.
 
+## The apps
+
+Two Android apps share one code base. The admin app manages users, tops up credit and shows statistics. The user app shows one person their own credit and history, and has the "Buy a coffee" button and the credit transfer (the arrows at the top).
+
+<figure class="shots">
+  <div class="shots-row">
+    <img src="/projects/brewpass/admin-users.webp" width="600" height="1301" loading="lazy" decoding="async" alt="Admin app: list of users with their balance and total coffees, a search field and a button to add a user" />
+    <img src="/projects/brewpass/userapp-log.webp" width="600" height="1301" loading="lazy" decoding="async" alt="User app: credit of 2300 Ft, a Buy a coffee button and the history of purchases and a transfer" />
+    <img src="/projects/brewpass/userapp-stats.webp" width="600" height="1301" loading="lazy" decoding="async" alt="User app statistics: coffees per day for the last 7 days and coffees by time of day" />
+  </div>
+  <figcaption>Admin app user list · User app history · User app statistics. Rendered from the apps' own Compose screens with sample data (Robolectric + Roborazzi in GitHub Actions), so no real names or balances appear.</figcaption>
+</figure>
+
 ## What the rewrite fixed
 
 BrewPass is an object-oriented rewrite of my first version, rfidChecker. Going through the old code turned up real bugs:
