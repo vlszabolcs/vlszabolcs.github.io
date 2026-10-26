@@ -272,7 +272,8 @@ html:has(dialog[open]){overflow:hidden}
 .prose .lead{font-size:17px}
 
 /* ---------- click-to-play video ---------- */
-.yt{margin:0;display:grid;gap:8px;width:100%;max-width:640px}
+.yt{margin:0;display:grid;gap:8px;width:100%;max-width:640px;justify-self:center}
+.yt figcaption{text-align:center}
 .yt-frame{display:block;width:100%;aspect-ratio:16/9;border:1px solid var(--line);border-radius:6px;background:var(--ink);overflow:hidden}
 .yt-play{position:relative;padding:0;cursor:pointer;appearance:none}
 .yt-play img{display:block;width:100%;height:100%;object-fit:cover;opacity:.92;transition:opacity .15s ease}
