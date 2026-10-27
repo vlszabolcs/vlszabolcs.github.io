@@ -1,0 +1,18 @@
+---
+// ITS-G5 channel plan in the 5.9 GHz band, with the control channel (180) highlighted.
+// The bars "breathe" like a live spectrum; motion is off for visitors who reduce motion.
+const channels = [
+  { ch: 172, f: "5.860", h: 38 }, { ch: 174, f: "5.870", h: 52 }, { ch: 176, f: "5.880", h: 66 },
+  { ch: 178, f: "5.890", h: 58 }, { ch: 180, f: "5.900", h: 100, cch: true },
+  { ch: 182, f: "5.910", h: 44 }, { ch: 184, f: "5.920", h: 30 },
+];
+---
+<figure class="band" aria-label="ITS-G5 channel plan, 5.9 GHz band">
+  <div class="chs" aria-hidden="true">
+    {channels.map((c) => <i class:list={["ch", { cch: c.cch }]} style={`height:${c.h}%`}></i>)}
+  </div>
+  <div class="ticks">
+    {channels.map((c) => <span class:list={{ on: c.cch }}><b>{c.ch}</b>{c.f}</span>)}
+  </div>
+  <figcaption>ITS-G5 channels, GHz. Channel 180 is the control channel where most V2X messages land.</figcaption>
+</figure>

@@ -5,6 +5,7 @@ summary: "Porting an ITS-G5 car-to-car radio receiver to the LilyGO T-Dongle-C5,
 order: 1
 repo: vlszabolcs/v2x2map
 branch: tdongle-c5
+art: its-g5-band
 specs:
   - { label: Hardware, value: "LilyGO T-Dongle-C5 (ESP32-C5)" }
   - { label: Radio, value: "ITS-G5, 5.9 GHz" }

@@ -16,8 +16,9 @@ const projects = defineCollection({
     repo: z.string().optional(),
     // branch to read the last commit from (defaults to the repo default branch)
     branch: z.string().optional(),
-    // optional illustration beside the description (see ProjectArt.astro)
-    art: z.enum(["rfid-coffee"]).optional(),
+    // optional illustration: "rfid-coffee" sits beside the intro (ProjectArt.astro),
+    // "its-g5-band" is the animated channel plan above it (ChannelBand.astro)
+    art: z.enum(["rfid-coffee", "its-g5-band"]).optional(),
     // optional click-to-play YouTube video shown after the key facts
     video: z.object({ youtube: z.string(), title: z.string() }).optional(),
     specs: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
